@@ -1,6 +1,6 @@
-import './style.css'
-import vertext from './glsl/image/vertext.glsl?raw'
-import fragment from './glsl/image/fragment.glsl?raw'
+import '@/style.css'
+import vertext from '@/glsl/image/vertext.glsl?raw'
+import fragment from '@/glsl/image/fragment.glsl?raw'
 import {
   resizeCanvasToDisplaySize,
   initWebgl,
@@ -8,7 +8,7 @@ import {
   createImage,
   createTexture,
   createBuffer,
-} from './utils/webglUtil'
+} from '@/utils/webglUtil'
 /* import grass from '../public/assets/images/grass.png' */
 import grass from '/assets/images/floor1.jpg?url'
 

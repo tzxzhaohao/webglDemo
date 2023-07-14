@@ -1,7 +1,7 @@
-import './style.css'
-import vertext from './glsl/point/vertext.glsl?raw'
-import fragment from './glsl/point/fragment.glsl?raw'
-import { resizeCanvasToDisplaySize, initWebgl } from './utils/webglUtil'
+import '@/style.css'
+import vertext from '@/glsl/point/vertext.glsl?raw'
+import fragment from '@/glsl/point/fragment.glsl?raw'
+import { resizeCanvasToDisplaySize, initWebgl } from '@/utils/webglUtil'
 
 const canvas = document.createElement('canvas') as HTMLCanvasElement
 const gl = canvas.getContext('webgl')!
