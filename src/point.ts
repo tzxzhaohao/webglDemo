@@ -14,6 +14,7 @@ const a_position = gl.getAttribLocation(program, 'a_position')
 const u_size = gl.getUniformLocation(program, 'u_size')
 const a_color = gl.getAttribLocation(program, 'a_color')
 const u_time = gl.getUniformLocation(program, 'u_time')
+const u_time2 = gl.getUniformLocation(program, 'u_time2')
 
 gl.vertexAttrib4f(a_color, Math.random(), Math.random(), 0, 1)
 gl.vertexAttrib2f(a_position, 0.5, 0.5)
@@ -33,6 +34,7 @@ const draw = (time = 0.0) => {
       const ranPosition2 = Math.random() * 2 - 1
       const ranSize = Math.random() * 10
       gl.uniform1f(u_time, time)
+      gl.uniform1f(u_time2, time)
       gl.vertexAttrib2f(a_position, ranPosition, ranPosition2)
       gl.uniform1f(u_size, ranSize)
 
@@ -42,6 +44,7 @@ const draw = (time = 0.0) => {
   } else {
     for (let i = 0; i < count; i++) {
       gl.uniform1f(u_time, time)
+      gl.uniform1f(u_time2, time)
       gl.vertexAttrib2f(a_position, pointArr[i][0], pointArr[i][1])
       gl.uniform1f(u_size, pointArr[i][2])
 
