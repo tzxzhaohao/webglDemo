@@ -1,12 +1,13 @@
 import '@/style.css'
-import vertext from '@/glsl/2d/vertext.glsl?raw'
-import fragment from '@/glsl/2d/fragment.glsl?raw'
+import vertext from '@/glsl/2dMatrix/vertext.glsl?raw'
+import fragment from '@/glsl/2dMatrix/fragment.glsl?raw'
 import {
   resizeCanvasToDisplaySize,
   initWebgl,
   createBuffer,
 } from '@/utils/webglUtil'
 import * as dat from 'dat.gui'
+import { mat4 } from 'gl-matrix'
 const canvas = document.createElement('canvas') as HTMLCanvasElement
 const gl = canvas.getContext('webgl')!
 const app = document.getElementById('app') as HTMLDivElement
@@ -31,48 +32,96 @@ const gui = new dat.GUI()
 const transform = {
   x: 0,
   y: 0,
+  z: 0,
 }
-gl.uniform2f(u_transform, transform.x, transform.y)
-
+const transformMatrix = mat4.create()
+const transformFun = () => {
+  // 从当前位置到下一位置的偏移量
+  /*  mat4.translate(transformMatrix, transformMatrix, [
+    transform.x,
+    transform.y,
+    transform.z,
+  ])
+  gl.uniformMatrix4fv(u_transform, false, transformMatrix) */
+  mat4.fromTranslation(transformMatrix, [transform.x, transform.y, transform.z])
+  gl.uniformMatrix4fv(u_transform, false, transformMatrix)
+}
+transformFun()
 gui
   .add(transform, 'x', -1, 1, 0.01)
   .name('位置：x')
   .onChange((e) => {
-    gl.uniform2f(u_transform, transform.x, transform.y)
+    transformFun()
     draw()
   })
 gui
   .add(transform, 'y', -1, 1, 0.01)
   .name('位置：y')
   .onChange((e) => {
-    gl.uniform2f(u_transform, transform.x, transform.y)
+    transformFun()
     draw()
   })
-
+gui
+  .add(transform, 'z', -1, 1, 0.01)
+  .name('位置：z')
+  .onChange((e) => {
+    transformFun()
+    draw()
+  })
 // 旋转操作
 const u_rotate = gl.getUniformLocation(program, 'u_rotate')
 const obj = {
   angle: 0,
-  scale: 1,
 }
-gl.uniform1f(u_rotate, obj.angle)
+
+const rotateFun = () => {
+  mat4.fromRotation(transformMatrix, (obj.angle / 180) * Math.PI, [0, 0, 1])
+  gl.uniformMatrix4fv(u_rotate, false, transformMatrix)
+}
+rotateFun()
 gui
   .add(obj, 'angle', 0, 360, 1)
   .name('旋转角度')
   .onChange((e) => {
-    gl.uniform1f(u_rotate, (obj.angle / 180) * Math.PI)
+    rotateFun()
     draw()
   })
 
 // 缩放操作
 const u_scale = gl.getUniformLocation(program, 'u_scale')
 
-gl.uniform1f(u_scale, obj.scale)
+const scale = {
+  x: 1,
+  y: 1,
+  z: 1,
+}
+const scaleFunction = () => {
+  mat4.fromScaling(transformMatrix, [scale.x, scale.y, scale.z])
+  gl.uniformMatrix4fv(u_scale, false, transformMatrix)
+}
+
+scaleFunction()
+
 gui
-  .add(obj, 'scale', 0.1, 10, 0.1)
-  .name('缩放倍数')
+  .add(scale, 'x', 0.1, 10, 0.1)
+  .name('缩放倍数x')
   .onChange((e) => {
-    gl.uniform1f(u_scale, obj.scale)
+    scaleFunction()
+    draw()
+  })
+gui
+  .add(scale, 'y', 0.1, 10, 0.1)
+  .name('缩放倍数y')
+  .onChange((e) => {
+    scaleFunction()
+    draw()
+  })
+
+gui
+  .add(scale, 'z', 0.1, 10, 0.1)
+  .name('缩放倍数z')
+  .onChange((e) => {
+    scaleFunction()
     draw()
   })
 
