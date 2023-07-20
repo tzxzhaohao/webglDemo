@@ -1,18 +1,24 @@
 import { resolve } from 'path'
-import { defineConfig } from 'vite'
+import { ConfigEnv, defineConfig, loadEnv } from 'vite'
 
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
-  },
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        nested: resolve(__dirname, 'pages/page1.html'),
+export default ({ mode }: ConfigEnv) => {
+  const root = process.cwd()
+  const ENV = loadEnv(mode, root)
+
+  return defineConfig({
+    base: ENV.VITE_BASE_URL,
+    resolve: {
+      alias: {
+        '@': resolve(__dirname, 'src'),
       },
     },
-  },
-})
+    build: {
+      rollupOptions: {
+        input: {
+          main: resolve(__dirname, 'index.html'),
+          nested: resolve(__dirname, 'pages/page1.html'),
+        },
+      },
+    },
+  })
+}
