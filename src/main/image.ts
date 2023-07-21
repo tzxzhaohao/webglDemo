@@ -1,3 +1,5 @@
+// 注意事项 当贴图设置为重复贴图时 gl.REPEAT 图片的尺寸只能是2的次幂
+
 import '@/style.css'
 import vertext from '@/glsl/image/vertext.glsl?raw'
 import fragment from '@/glsl/image/fragment.glsl?raw'

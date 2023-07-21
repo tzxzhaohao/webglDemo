@@ -2,19 +2,16 @@
   attribute vec3 a_position;
   attribute vec3 a_color;
   // 平移操作
-  uniform mat4 u_transform;
-  // 旋转操作
-  uniform mat4 u_rotate;
-  // 缩放操作
-  uniform mat4 u_scale; 
 
   varying vec3 v_color;
+  // 定义视图矩阵 MVP 中的view矩阵
+  uniform mat4 u_viewMatrix;
 
   // 所有着色器都有一个main方法
   void main() {
     // gl_Position 是一个顶点着色器主要设置的变量
-    mat4 trans = u_rotate * u_scale * u_transform;
-    gl_Position = trans *  vec4(a_position,1);
+
+    gl_Position = u_viewMatrix * vec4(a_position,1.0);
+    gl_PointSize = 10.0;
     v_color = a_color;
-  
   } 

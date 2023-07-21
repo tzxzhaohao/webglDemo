@@ -42,6 +42,7 @@ const transform = {
   z: -0.5,
 }
 const transformMatrix = mat4.create()
+
 const transformFun = () => {
   // 从当前位置到下一位置的偏移量
   /*  mat4.translate(transformMatrix, transformMatrix, [
@@ -114,9 +115,9 @@ gui
 const u_scale = gl.getUniformLocation(program, 'u_scale')
 
 const scale = {
-  x: 1,
-  y: 1,
-  z: 1,
+  x: 0.5,
+  y: 0.5,
+  z: 0.5,
 }
 const scaleFunction = () => {
   mat4.fromScaling(transformMatrix, [scale.x, scale.y, scale.z])
@@ -156,6 +157,15 @@ const draw = () => {
   gl.drawArrays(gl.TRIANGLES, 0, 36)
 }
 draw()
+
+const tick = (time: number) => {
+  obj.angleY = time / 10
+  rotateFun([1, 1, 1], 'angleY')
+  draw()
+  requestAnimationFrame(tick)
+}
+requestAnimationFrame(tick)
+
 window.addEventListener('resize', () => {
   resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
