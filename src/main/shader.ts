@@ -2,7 +2,7 @@ import '@/style.css'
 import vertext from '@/glsl/shader/vertext.glsl?raw'
 import fragment from '@/glsl/shader/fragment.glsl?raw'
 import { resizeCanvasToDisplaySize, initWebgl,createBuffer } from '@/utils/webglUtil'
-
+import { mat4 } from 'gl-matrix' 
 const canvas = document.createElement('canvas') as HTMLCanvasElement
 const gl = canvas.getContext('webgl')!
 const app = document.getElementById('app') as HTMLDivElement
@@ -27,6 +27,14 @@ const a_uv = gl.getAttribLocation(program, 'a_uv')
 createBuffer(gl, positionArr, a_uv)
 
 gl.vertexAttribPointer(a_uv, 2, gl.FLOAT, false, size * 4, size * 2)
+
+
+const u_transform = gl.getUniformLocation(program, 'u_transform')
+const transfrom =  mat4.create()
+mat4.translate(transfrom,transfrom,[0,0.1,0])
+
+gl.uniformMatrix4fv(u_transform,false,transfrom)
+
 
 
 gl.vertexAttrib2f(a_position, 0, 0)

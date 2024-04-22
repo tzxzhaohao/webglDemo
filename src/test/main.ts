@@ -1,7 +1,8 @@
 import '@/style.css'
-import vertext from '@/glsl/page1/vertext.glsl?raw'
-import fragment from '@/glsl/page1/fragment.glsl?raw'
-import { resizeCanvasToDisplaySize, initWebgl } from '@/utils/webglUtil'
+import vertext from '@/glsl/坐标转换/vertext.glsl?raw'
+import fragment from '@/glsl/坐标转换/fragment.glsl?raw'
+import { resizeCanvasToDisplaySize, initWebgl, createBuffer } from '@/utils/webglUtil'
+import { mat3,vec3 } from 'gl-matrix'
 
 const canvas = document.createElement('canvas') as HTMLCanvasElement
 const gl = canvas.getContext('webgl')!
@@ -14,19 +15,25 @@ const a_position = gl.getAttribLocation(program, 'a_position')
 // Tell WebGL how to convert from clip space to pixels
 resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
+const u_resolution =  gl.getUniformLocation(program, 'u_resolution')
+gl.uniform2f(u_resolution, gl.canvas.width, gl.canvas.height)
+const w = gl.canvas.width
+const h = gl.canvas.height
+
 
 const draw = () => {
-  gl.clearColor(0.5, 0.5, 0.5, 1)
-  gl.clear(gl.COLOR_BUFFER_BIT)
-  const n = 1000
-  const radis = 0.5
-  for (let i = 0; i < n; i++) {
-    const angle = Math.PI * 2 / n * i
-    const x = radis * Math.sin(angle)
-    const y = radis * Math.cos(angle)
-    gl.vertexAttrib2f(a_position, x, y)
-    gl.drawArrays(gl.POINTS, 0, 1)
-  }
+
+
+  const bufferData = new Float32Array([300.0, 453.9,200.4,780.7,200.3,207.0])
+
+
+
+
+  createBuffer(gl, bufferData, a_position)
+  gl.vertexAttribPointer(a_position,2,gl.FLOAT,false,0,0)
+ 
+  gl.drawArrays(gl.TRIANGLES,0,3)
+ 
 }
 draw()
 window.addEventListener('resize', () => {

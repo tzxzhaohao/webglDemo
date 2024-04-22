@@ -41,9 +41,11 @@ export const resizeCanvasToDisplaySize = (
 ) => {
   const width = (canvas.clientWidth * multiplier) | 0
   const height = (canvas.clientHeight * multiplier) | 0
+
   if (canvas.width !== width || canvas.height !== height) {
     canvas.width = width
     canvas.height = height
+    console.log(`宽：${canvas.width}px,高：${canvas.height}px`)
     return true
   }
   return false
@@ -125,7 +127,7 @@ export const createTexture = (
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST)
   // Upload the image into the texture.
   gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image)
-  gl.uniform1i(u_texture, 0)
+  gl.uniform1i(u_texture, type)
 }
 
 export const createBuffer = (

@@ -5,5 +5,5 @@
   void main() {
     // gl_Position 是一个顶点着色器主要设置的变量
     gl_Position = a_position;
-    gl_PointSize = 10.0;
+    gl_PointSize = 1.0;
   }

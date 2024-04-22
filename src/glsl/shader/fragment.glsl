@@ -1,6 +1,10 @@
 precision mediump float;
 varying vec2 v_uv;
 uniform float u_time;
+uniform mat4 u_transform;
+float plot(vec2 st) {    
+    return smoothstep(0.02, 0.0, abs(st.y - st.x));
+}
 void main() {
   // 颜色渐变
   // gl_FragColor = vec4(v_uv.x, v_uv.y, abs(sin(u_time)),1 );
@@ -15,10 +19,11 @@ void main() {
   gl_FragColor = vec4(color,1); */
 
   // 插值函数 smoothstep
-  float rgb = smoothstep(0.8,0.1,v_uv.x);
+  vec4 n_uv = u_transform * vec4(v_uv,0,1);
+  vec2 c_uv = vec2(n_uv.x,n_uv.y);
 
-  vec3 color = vec3(rgb);
-  gl_FragColor = vec4(color,1);
+  float color =  step( 0.1,distance(c_uv,vec2(0.5)) )   ;
+  gl_FragColor = vec4(color,color,color,1);
 
 
 }

@@ -12,7 +12,7 @@ import {
   createBuffer,
 } from '@/utils/webglUtil'
 /* import grass from '../public/assets/images/grass.png' */
-import grass from '/assets/images/floor1.jpg?url'
+import grass from '/assets/images/grass.png?url'
 
 //
 const image: HTMLImageElement = (await createImage(grass)) as HTMLImageElement
@@ -25,10 +25,12 @@ const program = initWebgl(gl, vertext, fragment)!
 // 使用webgl绘制一个点
 const a_position = gl.getAttribLocation(program, 'a_position')
 resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
+
 gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)
 
 // 定义位置信息
 const { arr, width } = getReactArrayData()
+
 createBuffer(gl, arr, a_position)
 gl.vertexAttribPointer(a_position, 2, gl.FLOAT, false, 0, 0)
 
@@ -67,6 +69,7 @@ const draw = () => {
   gl.drawArrays(gl.TRIANGLE_STRIP, 0, 6)
 }
 draw()
+
 window.addEventListener('resize', () => {
   resizeCanvasToDisplaySize(gl.canvas as HTMLCanvasElement)
   gl.viewport(0, 0, gl.canvas.width, gl.canvas.height)

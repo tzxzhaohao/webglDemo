@@ -3,6 +3,7 @@
   attribute float a_size;
   varying vec4 v_position;
 
+
   // 所有着色器都有一个main方法
   void main() {
     // gl_Position 是一个顶点着色器主要设置的变量

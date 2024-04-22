@@ -19,7 +19,7 @@ const u_time = gl.getUniformLocation(program, 'u_time')
 /* const u_time2 = gl.getUniformLocation(program, 'u_time2') */
 // 更改数据的传递方式
 
-const count = 100
+const count = 3
 const positonDataArray = new Float32Array(count * 3)
 const size = positonDataArray.BYTES_PER_ELEMENT
 for (let i = 0; i < count; i++) {
